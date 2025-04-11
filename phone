@@ -1,0 +1,27 @@
+#!/bin/bash
+
+format_change() {
+	input=""
+
+	for i in "$@"; do 
+		if [ "$input" = "" ];
+		then
+			input="$i"
+		else
+			input="$input|$i"
+		fi
+	done
+
+	echo "$input"
+}
+
+if [ $# -eq 0 ]
+then
+	echo Usage $0 arg1 arg2 arg3 ... argn
+else
+	INPUT=$(format_change "$@")
+
+	egrep -i "($INPUT)" mydata > tmp
+
+	awk -f display.awk tmp
+fi
